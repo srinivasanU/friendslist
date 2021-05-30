@@ -49,6 +49,13 @@ code {
   height: 25px;
 }
 
+.card-pagination-fixed {
+  padding: 0% 1%;
+  height: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
 .card-title {
   font-size: 20px;
 }

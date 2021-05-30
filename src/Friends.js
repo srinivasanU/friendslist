@@ -12,19 +12,51 @@ export class Friends extends Component {
                 {id:2, name: 'Ross Geller' , favourite: false},
                 {id:3, name: 'Chandler Bing' , favourite: false}
             ],
+            paginatedata: [],
         }
+        this.currentpage = 1
+        this.dataLimit = 4
         this.filterdata = this.state.friendslist
     }
 
+    componentDidMount() {
+        this.paginatedata()
+    }
+
     filtertable(name) {
-        var filterdata = []
-        for (let i = 0 ; i <= this.filterdata.length-1 ; i++) {
-            if (this.filterdata[i]['name'].toLowerCase().includes(name.toLowerCase())) {
-                filterdata.push(this.filterdata[i])
+        if (name.length === 0) {
+            this.setState({
+                friendslist: this.filterdata
+            })
+            console.log('filter')
+            this.filterpaginatedata()
+        } else {
+            var filterdata = []
+            for (let i = 0 ; i <= this.filterdata.length-1 ; i++) {
+                if (this.filterdata[i]['name'].toLowerCase().includes(name.toLowerCase())) {
+                    filterdata.push(this.filterdata[i])
+                }
             }
+            this.setState({
+                friendslist: filterdata,
+            })
+            this.paginatedata()
         }
+    }
+
+    paginatedata() {
+        const startIndex = this.currentpage * this.dataLimit - this.dataLimit;
+        const endIndex = startIndex + this.dataLimit;
         this.setState({
-            friendslist: filterdata
+            paginatedata: this.state.friendslist.slice(startIndex, endIndex)
+        })
+    }
+
+    filterpaginatedata() {
+        const startIndex = this.currentpage * this.dataLimit - this.dataLimit;
+        const endIndex = startIndex + this.dataLimit;
+        this.setState({
+            paginatedata: this.filterdata.slice(startIndex, endIndex)
         })
     }
 
@@ -37,6 +69,7 @@ export class Friends extends Component {
                 friendslist: [...this.state.friendslist, finalresponse],
             })
             this.filterdata = [...this.state.friendslist, finalresponse]
+            this.filterpaginatedata()
         }
     }
 
@@ -58,6 +91,7 @@ export class Friends extends Component {
                 this.setState({
                     friendslist: this.state.friendslist
                 })
+                this.paginatedata()
               swal("Deleted!", "Your contact has been deleted!", "success");
             }
         });
@@ -74,6 +108,21 @@ export class Friends extends Component {
         this.setState({
             friendslist: this.state.friendslist
         })
+        this.paginatedata()
+    }
+
+    previouspage(e,page) {
+        e.preventDefault();
+        if (page !== 1) {
+            this.currentpage = this.currentpage - 1
+            this.paginatedata()
+        }
+    }
+
+    nextpage(e,page) {
+        e.preventDefault();
+        this.currentpage = this.currentpage + 1
+        this.paginatedata()
     }
     
     render() {
@@ -87,7 +136,7 @@ export class Friends extends Component {
                     <div className="card-body-fixed">
                         <table id="friendtable" className="friendtable">
                             <tbody>
-                                {this.state.friendslist.map((value, index) => (
+                                {this.state.paginatedata.map((value, index) => (
                                     <tr key={index+1}>
                                         <td><b>{value.name}</b><p>is your friend</p></td>
                                         <td><input type="checkbox" id="checkboxinlist" className="replacewithicon" checked={value.favourite} onClick={e => this.setfavourite(e.target.checked,value.id)}/></td>
@@ -96,6 +145,11 @@ export class Friends extends Component {
                                 ))}
                             </tbody>
                         </table>
+                    </div>
+                    <div className="card-pagination-fixed">
+                        <input type="button" value="Previous" disabled={this.currentpage === 1} onClick={e => this.previouspage(e,this.currentpage)} />
+                                <p>currentpage : {this.currentpage}</p>
+                        <input type="button" value="Next" onClick={e => this.nextpage(e,this.currentpage)} />
                     </div>
                     <div className="card-footer-fixed">
                         <form onSubmit={e => this.addfriend(e)}>
