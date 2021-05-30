@@ -1,3 +1,9 @@
+html , body , #root {
+  height: 100%;
+  width: 100%;
+  background-color: whitesmoke;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +16,83 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.fl-container {
+  display: flex;
+  justify-content: center;
+  height: inherit;
+  align-items: center;
+}
+
+.fl-container-card {
+  background-color: white;
+  width: 100%;
+  margin: 5%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.card-header-fixed {
+  border-bottom: 1px solid gainsboro;
+  padding: 1%;
+  height: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-body-fixed {
+  padding: 1%;
+}
+
+.card-footer-fixed {
+  border-top: 1px solid gainsboro;
+  padding: 1%;
+  height: 25px;
+}
+
+.card-title {
+  font-size: 20px;
+}
+
+.custom-search {
+  padding: 12px 20px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.addfriend {
+  width: 100%;
+  padding: 5px 20px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.custom-search:focus, .addfriend:focus {
+  border: 3px solid #555;
+}
+
+#friendtable {
+  width: 100%;
+}
+
+#friendtable td, #friendtable th {
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+}
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  content: url(./star.svg);
+}
+
+input[type="checkbox"]:checked {
+  content: url(./starcolor.svg);
 }
