@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import swal from 'sweetalert';
 
-class Friends extends Component {
+export class Friends extends Component {
     constructor(props) {
         super(props)
     
@@ -41,14 +42,26 @@ class Friends extends Component {
 
     deletefriend(e,friend) {
         e.preventDefault();
-        for (let i = 0 ; i <= this.state.friendslist.length-1 ; i++) {
-            if (this.state.friendslist[i]['id'] === friend['id']) {
-                this.state.friendslist.splice(i, 1); 
-            }
-        }
-        this.setState({
-            friendslist: this.state.friendslist
+        swal({
+            title: "Are you sure?",
+            text: "Are you sure that you want to delete this contact?",
+            icon: "warning",
+            dangerMode: true,
         })
+        .then(willDelete => {
+            if (willDelete) {
+                for (let i = 0 ; i <= this.state.friendslist.length-1 ; i++) {
+                    if (this.state.friendslist[i]['id'] === friend['id']) {
+                        this.state.friendslist.splice(i, 1); 
+                    }
+                }
+                this.setState({
+                    friendslist: this.state.friendslist
+                })
+              swal("Deleted!", "Your contact has been deleted!", "success");
+            }
+        });
+        
     }
 
     setfavourite(favourite,id) {
