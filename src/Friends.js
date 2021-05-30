@@ -6,28 +6,20 @@ class Friends extends Component {
     
         this.state = {
             addfriendname: '',
-            friendslist: [],
-            filterlist: []
-        }
-    }
-
-    componentDidMount() {
-        this.setState({
             friendslist: [
                 {id:1, name: 'Monica Geller' , favourite: true},
                 {id:2, name: 'Ross Geller' , favourite: false},
                 {id:3, name: 'Chandler Bing' , favourite: false}
             ],
-            filterlist: this.state.friendslist
-        })
+        }
+        this.filterdata = this.state.friendslist
     }
 
     filtertable(name) {
-        console.log(this.state.filterlist,this.state.friendslist)
         var filterdata = []
-        for (let i = 0 ; i <= this.state.filterlist.length-1 ; i++) {
-            if (this.state.filterlist[i]['name'].toLowerCase().includes(name.toLowerCase())) {
-                filterdata.push(this.state.filterlist[i])
+        for (let i = 0 ; i <= this.filterdata.length-1 ; i++) {
+            if (this.filterdata[i]['name'].toLowerCase().includes(name.toLowerCase())) {
+                filterdata.push(this.filterdata[i])
             }
         }
         this.setState({
@@ -42,8 +34,8 @@ class Friends extends Component {
             this.setState({
                 addfriendname : '',
                 friendslist: [...this.state.friendslist, finalresponse],
-                filterlist: this.state.friendslist
             })
+            this.filterdata = [...this.state.friendslist, finalresponse]
         }
     }
 
